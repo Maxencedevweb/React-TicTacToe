@@ -1,0 +1,10 @@
+.case {
+    width: 100px; /* Largeur de chaque case */
+    height: 100px; /* Hauteur de chaque case */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #000; /* Bordure des cases */
+    font-size: 24px; /* Taille du texte dans les cases */
+    cursor: pointer; /* Curseur pointeur pour indiquer que les cases sont cliquables */
+}

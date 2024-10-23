@@ -1,0 +1,7 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 300px; /* Largeur totale du tableau */
+    margin: auto; /* Centrer le tableau horizontalement */
+    margin-top: 30px;
+}
