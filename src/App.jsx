@@ -67,7 +67,7 @@ function App() {
     setWinner(null);
   };
 
-  const handleClick = (event, id) => {
+  const handleClick = (id) => {
     if (isPlaying) {
       if (isPlayable(cells, id)) {
         setCountTurn((prevCount) => prevCount + 1);
@@ -110,7 +110,7 @@ function App() {
               key={cell.id}
               id={cell.id}
               value={cell.value}
-              onClick={(event) => handleClick(event, cell.id)}
+              onClick={() => handleClick(cell.id)}
             />
           );
         })}
