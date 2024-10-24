@@ -1,3 +1,4 @@
+
 .game-container {
   display: flex;
   justify-content: center; /* Centrer horizontalement */
@@ -8,29 +9,80 @@
   margin: 0 auto;
 }
 
-.board {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 300px;
-  background-color: #f0f0f0; /* Exemple de fond pour la grille */
-}
-
-.historyMoveList {
+.footerGame {
   display: flex;
   flex-direction: column;
-  max-width: 300px;
-  background-color: #fff; /* Exemple de fond pour la liste */
-  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  background-color: #1a202c;  /* Fond sombre */
+  color: #fff;
+  padding: 1.5rem;
+  margin-top: 4rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.footerGame button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a202c;  /* Texte foncé */
+  background-color: #857aea;  /* Violet */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+  border: 1px solid #857aea;  /* Violet plus foncé */
+}
+
+.footerGame button:hover {
+  background-color: #857aea;
+  color: #fff;  /* Texte blanc au hover */
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(159, 122, 234, 0.3);
+}
+
+.footerGame button:active {
+  transform: translateY(0);
+}
+
+.footerGame p {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+  padding: 0.75rem 1.25rem;
+  background-color: #2d3748;  /* Gris foncé */
+  border: 1px solid #4a5568;  /* Bordure grise */
+  border-radius: 8px;
+  min-width: 200px;
+  text-align: center;
+  color: #a0aec0;  /* Texte gris clair */
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 600px) {
+  .footerGame p {
+    min-width: unset;
+    width: 100%;
+  }
+}
+
+/* Animation pour le footer similaire à l'historique */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .footerGame {
-  background-color: #282c34;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  margin-top: 0.5em;
+  animation: fadeIn 0.3s ease-out;
 }
 
 /* Pour les petits écrans */
@@ -38,6 +90,10 @@
   .game-container {
     flex-direction: column;
     align-items: center;
+  }
+
+  .footerGame{
+    margin-top:0px;
   }
 
   .historyMoveList {

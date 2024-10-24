@@ -2,7 +2,7 @@ import { useRef, useEffect } from 'react';
 import '../css/historyMoveList.css';
 
 const HistoryMoveList = (props) => {
-  const { history, onClick, winningPlayer } = props;
+  const { history, onClick, winningPlayer, currentClassName } = props;
 
   // Référence pour la liste d'historique
   const historyListRef = useRef(null);
@@ -36,9 +36,7 @@ const HistoryMoveList = (props) => {
           return (
             <li
               key={index}
-              className={`history-item ${
-                index === history.length - 1 ? 'current' : ''
-              }`}
+              className={`history-item ${currentClassName(index)}`}
             >
               <span className="move-number">{index + 1}</span>
               <button

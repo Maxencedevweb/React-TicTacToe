@@ -1,7 +1,7 @@
 const GameText = (props) => {
   const { value } = props;
 
-  return <div className="gameText">{value}</div>;
+  return <span className="gameText">{value}</span>;
 };
 
 export default GameText;

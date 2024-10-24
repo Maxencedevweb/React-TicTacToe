@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 300px; /* Largeur totale du tableau */
+    height: 300px;
     margin: auto; /* Centrer le tableau horizontalement */
     margin-top: 30px;
 }

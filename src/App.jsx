@@ -15,6 +15,7 @@ function App() {
 
   const [cells, setCells] = useState(initialCells);
   const [historyCells, setHistoryCells] = useState([cells]);
+  const [onlyOneCurrentList, setOnlyOneCurrentList] = useState(false);
 
   const getNextPlayerTurn = () => {
     if (
@@ -136,6 +137,19 @@ function App() {
     setCells(newCells);
   };
 
+  const handleCurrentClassName = (index) => {
+    if (JSON.stringify(cells) === JSON.stringify(historyCells[index])) {
+      setOnlyOneCurrentList(true);
+      return 'current';
+    } else if (
+      index === historyCells.length - 1 &&
+      onlyOneCurrentList === false
+    ) {
+      return 'current';
+    }
+    return '';
+  };
+
   return (
     <>
       <div className="game-container">
@@ -156,6 +170,7 @@ function App() {
           winningPlayer={
             checkWinner(historyCells[historyCells.length - 1])?.winner
           }
+          currentClassName={(index) => handleCurrentClassName(index)}
         />
       </div>
       <div className="footerGame">
