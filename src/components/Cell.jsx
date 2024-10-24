@@ -1,10 +1,14 @@
-import '../css/Case.css';
+import '../css/Cell.css';
 
 const Cell = (props) => {
-  const { id, onClick, value } = props;
+  const { id, onClick, value, highlighted } = props;
 
   return (
-    <button id={id} className="case" onClick={onClick}>
+    <button
+      id={id}
+      className={`case ${highlighted ? 'highlighted' : ''}`}
+      onClick={onClick}
+    >
       {value}
     </button>
   );

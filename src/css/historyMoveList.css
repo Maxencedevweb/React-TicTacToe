@@ -1,7 +1,128 @@
-.historyMoveList {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    left: calc(50% + 150px + 30px); /* 300px (largeur du tableau) + 30px (espace) */
-    top: 30px; /* Aligne la liste à la même hauteur que le tableau */
+.history-container {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: calc(50% + 200px + 30px); /* 300px (largeur du tableau) + 30px (espace) */
+  top: 30px; /* Aligne la liste à la même hauteur que le tableau */ 
+  width: 300px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+@media (max-width: 1150px) {
+    .history-container {
+      position: relative;
+      left: 0; /* Réinitialise le positionnement à gauche */
+      top: 0; /* Réinitialise le positionnement vertical */
+      margin-top: 20px; /* Ajoute un espacement au-dessus */
+      width: 100%; /* S'étend sur toute la largeur disponible */
+      max-width: 300px; /* Limite la largeur à un maximum */
+    }
   }
+.history-title {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.history-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    min-height: 250px; /* Hauteur minimale pour activer le défilement */
+    max-height: 250px; /* Hauteur maximale pour activer le défilement */
+    overflow-y: auto; /* Toujours afficher la barre de défilement */
+    padding-right: 5px; /* Décale la scrollbar à droite */
+  }
+  
+  /* Stylisation de la barre de défilement */
+  .history-list::-webkit-scrollbar {
+    width: 8px; /* Largeur de la scrollbar */
+  }
+  
+  .history-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+  }
+  
+  .history-list::-webkit-scrollbar-thumb {
+    background: #bdc3c7;
+    border-radius: 3px;
+  }
+  
+  .history-list::-webkit-scrollbar-thumb:hover {
+    background: #95a5a6;
+  }
+  
+  /* Styles de la barre de défilement pour Firefox */
+  
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.history-item.current {
+  background-color: rgba(52, 152, 219, 0.1);
+}
+
+.move-number {
+  min-width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3498db;
+  color: white;
+  border-radius: 50%;
+  font-size: 0.8rem;
+}
+
+.history-button {
+  flex-grow: 1;
+  padding: 8px 12px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #666;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.history-button:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+}
+
+.history-button.winner {
+  background-color: #2ecc71;
+  color: white;
+  border-color: #27ae60;
+}
+
+.history-button.winner:hover {
+  background-color: #27ae60;
+}
+
+/* Animation pour les nouveaux coups */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.history-item {
+  animation: fadeIn 0.3s ease-out;
+}

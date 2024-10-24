@@ -10,6 +10,7 @@ function App() {
   const initialCells = Array.from({ length: 9 }, (_, index) => ({
     id: `case-${index + 1}`,
     value: '',
+    highlighted: false,
   }));
 
   const [cells, setCells] = useState(initialCells);
@@ -61,7 +62,10 @@ function App() {
         cells[a].value === cells[b].value &&
         cells[a].value === cells[c].value
       ) {
-        return cells[a].value; // Retourne le joueur gagnant ('X' ou 'O')
+        return {
+          winner: cells[a].value,
+          winningCells: [a, b, c],
+        };
       }
     }
     return null;
@@ -94,23 +98,35 @@ function App() {
           }
           return cell;
         });
-        const winner = checkWinner(updatedCells);
-        if (!winner) {
-          getNextPlayerTurn();
+
+        // Vérifier s'il y a un gagnant
+        const result = checkWinner(updatedCells);
+        let finalCells;
+
+        if (result) {
+          // Surbriller les cellules gagnantes
+          finalCells = updatedCells.map((cell, index) => ({
+            ...cell,
+            highlighted: result.winningCells.includes(index),
+          }));
+        } else {
+          finalCells = updatedCells;
         }
-        setHistoryCells([...historyCells, updatedCells]);
-        return updatedCells;
+
+        // Mettre à jour l'historique avec les cellules finales
+        setHistoryCells([...historyCells, finalCells]);
+        return finalCells;
       });
     }
     return null;
   };
 
   const handleFooterText = () => {
-    const winner = checkWinner(cells);
-    if (winner === 'X' || winner === 'O') {
-      return `Player ${winner} Won !`;
+    const result = checkWinner(cells);
+    if (result) {
+      return `Player ${result.winner} Won !`;
     } else if (isDraw()) {
-      return "It`'s a Draw !";
+      return "It's a Draw !";
     }
     return `Player Turn : ${getNextPlayerTurn()}`;
   };
@@ -129,6 +145,7 @@ function App() {
               key={cell.id}
               id={cell.id}
               value={cell.value}
+              highlighted={cell.highlighted}
               onClick={() => handleClick(cell.id)}
             />
           ))}
@@ -136,7 +153,9 @@ function App() {
         <HistoryMoveList
           history={historyCells}
           onClick={(index) => handleHistoryClick(index)}
-          winningPlayer={checkWinner(historyCells[historyCells.length - 1])}
+          winningPlayer={
+            checkWinner(historyCells[historyCells.length - 1])?.winner
+          }
         />
       </div>
       <div className="footerGame">

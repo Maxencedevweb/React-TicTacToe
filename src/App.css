@@ -1,7 +1,48 @@
+.game-container {
+  display: flex;
+  justify-content: center; /* Centrer horizontalement */
+  align-items: flex-start; /* Alignement en haut */
+  gap: 2rem; /* Espace entre le plateau et la liste */
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  background-color: #f0f0f0; /* Exemple de fond pour la grille */
+}
+
+.historyMoveList {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  background-color: #fff; /* Exemple de fond pour la liste */
+  padding: 1rem;
+}
+
 .footerGame {
   background-color: #282c34;
   color: white;
   text-align: center;
   padding: 10px;
   margin-top: 0.5em;
+}
+
+/* Pour les petits écrans */
+@media (max-width: 768px) {
+  .game-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .historyMoveList {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 2rem;
+  }
 }
