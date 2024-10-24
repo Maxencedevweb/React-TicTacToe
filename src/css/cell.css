@@ -12,21 +12,10 @@
     background-color: white;
 }
 
-/* Style pour les X */
-.case[value="X"] {
-    color: #e74c3c;
-}
-
-/* Style pour les O */
-.case[value="O"] {
-    color: #3498db;
-}
-
 /* Animation et style pour les cases gagnantes */
 .case.highlighted {
     background-color: #2ecc71;
     border-color: #27ae60;
-    color: white !important; /* Pour s'assurer que X et O sont blancs */
     animation: winner-pulse 1.5s ease infinite;
 }
 
@@ -46,7 +35,11 @@
 }
 
 /* Effet hover sur les cases non jouées */
-.case:not([value]):hover {
+.case:not(.case.highlighted):hover {
     background-color: #f8f9fa;
     border-color: #bdc3c7;
+}
+.case.highlighted:hover {
+    background-color: #70cc96e1;
+    border-color: #27ae60;
 }
