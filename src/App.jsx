@@ -1,34 +1,42 @@
-import { useState } from "react";
-import "./App.css";
-import Cell from "./components/Cell";
-import Board from "./components/Board";
-import ResetButton from "./components/ResetButton.jsx";
-import GameText from "./components/GameText.jsx";
+import { useState } from 'react';
+import './App.css';
+import Cell from './components/Cell';
+import Board from './components/Board';
+import ResetButton from './components/ResetButton.jsx';
+import GameText from './components/GameText.jsx';
+import HistoryMoveList from './components/HistoryMoveList.jsx';
 
 function App() {
   const initialCells = Array.from({ length: 9 }, (_, index) => ({
     id: `case-${index + 1}`,
-    value: "",
+    value: '',
   }));
 
   const [cells, setCells] = useState(initialCells);
+  const [historyCells, setHistoryCells] = useState([cells]);
 
   const getNextPlayerTurn = () => {
     if (
-      cells.filter((cell) => cell.value === "X").length ===
-      cells.filter((cell) => cell.value === "O").length
+      cells.filter((cell) => cell.value === 'X').length ===
+      cells.filter((cell) => cell.value === 'O').length
     ) {
-      return "X";
+      return 'X';
     }
-    return "O";
+    return 'O';
   };
 
   const isPlayable = (id) => {
     if (checkWinner(cells) || isDraw(cells)) {
       return false;
     }
+    if (
+      cells.filter((cell) => cell.value !== '').length !==
+      historyCells.length - 1
+    ) {
+      return false;
+    }
     const cellToPlay = cells.find((cell) => cell.id === id);
-    if (cellToPlay && cellToPlay.value === "") {
+    if (cellToPlay && cellToPlay.value === '') {
       return true;
     }
     return false;
@@ -61,8 +69,8 @@ function App() {
 
   const isDraw = () => {
     if (
-      cells.filter((cell) => cell.value === "X").length === 5 &&
-      cells.filter((cell) => cell.value === "O").length === 4
+      cells.filter((cell) => cell.value === 'X').length === 5 &&
+      cells.filter((cell) => cell.value === 'O').length === 4
     ) {
       return true;
     }
@@ -71,6 +79,7 @@ function App() {
 
   const resetGame = () => {
     setCells(initialCells);
+    setHistoryCells([initialCells]);
   };
 
   const handleClick = (id) => {
@@ -89,15 +98,16 @@ function App() {
         if (!winner) {
           getNextPlayerTurn();
         }
+        setHistoryCells([...historyCells, updatedCells]);
         return updatedCells;
       });
     }
     return null;
   };
 
-  const handleText = () => {
+  const handleFooterText = () => {
     const winner = checkWinner(cells);
-    if (winner === "X" || winner === "O") {
+    if (winner === 'X' || winner === 'O') {
       return `Player ${winner} Won !`;
     } else if (isDraw()) {
       return "It`'s a Draw !";
@@ -105,23 +115,33 @@ function App() {
     return `Player Turn : ${getNextPlayerTurn()}`;
   };
 
+  const handleHistoryClick = (index) => {
+    const newCells = historyCells[index].slice();
+    setCells(newCells);
+  };
+
   return (
     <>
-      <Board>
-        {cells.map((cell) => {
-          return (
+      <div className="game-container">
+        <Board>
+          {cells.map((cell) => (
             <Cell
               key={cell.id}
               id={cell.id}
               value={cell.value}
               onClick={() => handleClick(cell.id)}
             />
-          );
-        })}
-      </Board>
+          ))}
+        </Board>
+        <HistoryMoveList
+          history={historyCells}
+          onClick={(index) => handleHistoryClick(index)}
+          winningPlayer={checkWinner(historyCells[historyCells.length - 1])}
+        />
+      </div>
       <div className="footerGame">
         <ResetButton value="Reset" onClick={resetGame} />
-        <GameText value={handleText()} />
+        <GameText value={handleFooterText()} />
       </div>
     </>
   );

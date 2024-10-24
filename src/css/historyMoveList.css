@@ -1,0 +1,7 @@
+.historyMoveList {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    left: calc(50% + 150px + 30px); /* 300px (largeur du tableau) + 30px (espace) */
+    top: 30px; /* Aligne la liste à la même hauteur que le tableau */
+  }
