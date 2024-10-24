@@ -1,32 +1,37 @@
-import { useState } from 'react';
-import './App.css';
-import Cell from './components/Cell';
-import Board from './components/Board';
-import ResetButton from './components/ResetButton.jsx';
-import GameText from './components/GameText.jsx';
+import { useState } from "react";
+import "./App.css";
+import Cell from "./components/Cell";
+import Board from "./components/Board";
+import ResetButton from "./components/ResetButton.jsx";
+import GameText from "./components/GameText.jsx";
 
 function App() {
   const initialCells = Array.from({ length: 9 }, (_, index) => ({
     id: `case-${index + 1}`,
-    value: '',
+    value: "",
   }));
 
-  const [isPlaying, setIsPlaying] = useState(true);
   const [cells, setCells] = useState(initialCells);
-  const [currentPlayer, setCurrentPlayer] = useState('X');
-  const [countTurn, setCountTurn] = useState(0);
-  const [winner, setWinner] = useState(null);
 
-  const isPlayable = (cell, id) => {
+  const getNextPlayerTurn = () => {
+    if (
+      cells.filter((cell) => cell.value === "X").length ===
+      cells.filter((cell) => cell.value === "O").length
+    ) {
+      return "X";
+    }
+    return "O";
+  };
+
+  const isPlayable = (id) => {
+    if (checkWinner(cells) || isDraw(cells)) {
+      return false;
+    }
     const cellToPlay = cells.find((cell) => cell.id === id);
-    if (cellToPlay && cellToPlay.value === '') {
+    if (cellToPlay && cellToPlay.value === "") {
       return true;
     }
     return false;
-  };
-
-  const changePlayerTurn = () => {
-    currentPlayer === 'X' ? setCurrentPlayer('O') : setCurrentPlayer('X');
   };
 
   const checkWinner = (cells) => {
@@ -48,57 +53,56 @@ function App() {
         cells[a].value === cells[b].value &&
         cells[a].value === cells[c].value
       ) {
-        setIsPlaying(false);
-        setWinner(cells[a].value); // Retourne le joueur gagnant ('X' ou 'O')
-      }
-    }
-    // Gerer le cas du match nul
-    console.log(countTurn);
-    if (countTurn === 8) {
-      setIsPlaying(false);
-      setWinner('Draw');
-    }
-  };
-
-  const resetGame = () => {
-    setCells(initialCells);
-    setCountTurn(0);
-    setIsPlaying(true);
-    setWinner(null);
-  };
-
-  const handleClick = (id) => {
-    if (isPlaying) {
-      if (isPlayable(cells, id)) {
-        setCountTurn((prevCount) => prevCount + 1);
-        setCells((prevCells) => {
-          const updatedCells = prevCells.map((cell) => {
-            if (cell.id === id) {
-              return {
-                ...cell,
-                value: currentPlayer,
-              };
-            }
-            return cell;
-          });
-          checkWinner(updatedCells);
-          if (winner === null) {
-            changePlayerTurn();
-          }
-          return updatedCells;
-        });
+        return cells[a].value; // Retourne le joueur gagnant ('X' ou 'O')
       }
     }
     return null;
   };
 
-  const handleText = (winner) => {
-    if (winner === 'X' || winner === 'O') {
+  const isDraw = () => {
+    if (
+      cells.filter((cell) => cell.value === "X").length === 5 &&
+      cells.filter((cell) => cell.value === "O").length === 4
+    ) {
+      return true;
+    }
+    return null;
+  };
+
+  const resetGame = () => {
+    setCells(initialCells);
+  };
+
+  const handleClick = (id) => {
+    if (isPlayable(id)) {
+      setCells((prevCells) => {
+        const updatedCells = prevCells.map((cell) => {
+          if (cell.id === id) {
+            return {
+              ...cell,
+              value: getNextPlayerTurn(),
+            };
+          }
+          return cell;
+        });
+        const winner = checkWinner(updatedCells);
+        if (!winner) {
+          getNextPlayerTurn();
+        }
+        return updatedCells;
+      });
+    }
+    return null;
+  };
+
+  const handleText = () => {
+    const winner = checkWinner(cells);
+    if (winner === "X" || winner === "O") {
       return `Player ${winner} Won !`;
-    } else if (winner === 'Draw') {
+    } else if (isDraw()) {
       return "It`'s a Draw !";
     }
-    return `Player Turn : ${currentPlayer}`;
+    return `Player Turn : ${getNextPlayerTurn()}`;
   };
 
   return (
@@ -117,7 +121,7 @@ function App() {
       </Board>
       <div className="footerGame">
         <ResetButton value="Reset" onClick={resetGame} />
-        <GameText value={handleText(winner)} />
+        <GameText value={handleText()} />
       </div>
     </>
   );

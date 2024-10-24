@@ -1,4 +1,4 @@
-import '../css/ResetButton.css';
+import "../css/ResetButton.css";
 const ResetButton = (props) => {
   const { value, onClick } = props;
 
