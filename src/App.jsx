@@ -133,7 +133,7 @@ function App() {
   };
 
   const handleHistoryClick = (index) => {
-    const newCells = historyCells[index].slice();
+    const newCells = historyCells[index].map((cell) => ({ ...cell }));
     setCells(newCells);
   };
 
